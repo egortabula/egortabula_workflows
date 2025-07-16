@@ -1,0 +1,60 @@
+name: Mason Publish Workflow
+
+on:
+  workflow_call:
+    inputs:
+      working_directory:
+        required: false
+        type: string
+        default: "."
+      mason_version:
+        required: false
+        type: string
+        default: ""
+      dart_sdk:
+        required: false
+        type: string
+        default: "stable"
+      runs_on:
+        required: false
+        type: string
+        default: "ubuntu-latest"
+      timeout_minutes:
+        required: false
+        type: number
+        default: 10
+    secrets:
+      mason_credentials:
+        required: true
+
+jobs:
+  publish:
+    runs-on: ${{ inputs.runs_on }}
+    timeout-minutes: ${{ inputs.timeout_minutes }}
+    
+    defaults:
+      run:
+        working-directory: ${{ inputs.working_directory }}
+    
+    steps:
+      - name: 📚 Git Checkout
+        uses: actions/checkout@v4
+
+      - name: 🎯 Setup Dart
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: ${{ inputs.dart_sdk }}
+
+      - name: 🧱 Install Mason
+        run: dart pub global activate mason_cli ${{ inputs.mason_version }}
+
+      - name: 🔐 Setup Mason Credentials
+        run: |
+          mkdir -p ~/.config/mason
+          echo '${{ secrets.mason_credentials }}' > ~/.config/mason/mason-credentials.json
+
+      - name: 🌵 Dry Run
+        run: mason publish --dry-run
+
+      - name: 📢 Publish
+        run: mason publish -f
