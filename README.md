@@ -6,7 +6,7 @@ Developed with 💙 by [Egortabula][egor_tabula_website_link]
 
 ---
 
-Reusable [GitHub workflows][github_workflows_link] used internally at [Very Good Ventures][very_good_ventures_link].
+Reusable [GitHub workflows][github_workflows_link] used internally at [Egortabula][egor_tabula_website_link].
 
 
 ## Quick Start 🚀
