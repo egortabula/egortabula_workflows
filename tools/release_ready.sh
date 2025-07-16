@@ -42,11 +42,29 @@ if [[ -n "$1" ]]; then
 else
     # Автоматическое определение версии через git-cliff
     echo "🔍 Determining next version automatically..."
-    new_version=$(git cliff --bumped-version)
+    
+    # Сначала проверяем, есть ли коммиты с последнего тега
+    last_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+    if [[ -n "$last_tag" ]]; then
+        commits_since_tag=$(git rev-list ${last_tag}..HEAD --count)
+        if [[ "$commits_since_tag" -eq 0 ]]; then
+            echo "❌ No commits found since last tag ($last_tag). Nothing to release."
+            exit 1
+        fi
+    fi
+    
+    new_version=$(git cliff --bumped-version 2>/dev/null)
     
     if [[ -z "$new_version" ]]; then
-        echo "❌ Could not determine next version. No commits found since last tag."
-        exit 1
+        echo "❌ Could not determine next version. Trying to bump from current version..."
+        # Если git cliff не может определить версию, попробуем увеличить patch версию
+        if [[ "$current_version" == "0.0.0" ]]; then
+            new_version="0.1.0"
+        else
+            # Простое увеличение patch версии
+            IFS='.' read -r major minor patch <<< "$current_version"
+            new_version="$major.$minor.$((patch + 1))"
+        fi
     fi
     
     # Убираем префикс 'v' если он есть
@@ -72,11 +90,21 @@ commit_msg="chore(release): update CHANGELOG.md for $new_version"
 echo "📝 Generating CHANGELOG.md..."
 
 # Генерируем changelog с помощью git-cliff, используя cliff.toml из корня
-git cliff --config ../cliff.toml --with-commit "$commit_msg" --bump -o ../CHANGELOG.md
+echo "🔧 Running: git cliff --config ../cliff.toml --with-commit \"$commit_msg\" --bump -o ../CHANGELOG.md"
+git cliff --config ../cliff.toml --with-commit "$commit_msg" --bump -o ../CHANGELOG.md 2>&1
 
-if [[ $? -ne 0 ]]; then
-    echo "❌ Failed to generate CHANGELOG.md"
-    exit 1
+exit_code=$?
+if [[ $exit_code -ne 0 ]]; then
+    echo "❌ Failed to generate CHANGELOG.md (exit code: $exit_code)"
+    echo "🔍 Trying alternative approach..."
+    
+    # Альтернативный подход: генерируем changelog с указанием тега
+    git cliff --config ../cliff.toml --with-commit "$commit_msg" --tag "v$new_version" -o ../CHANGELOG.md 2>&1
+    
+    if [[ $? -ne 0 ]]; then
+        echo "❌ Failed to generate CHANGELOG.md with alternative approach"
+        exit 1
+    fi
 fi
 
 echo "✅ CHANGELOG.md generated successfully"
