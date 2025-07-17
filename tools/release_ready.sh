@@ -5,10 +5,17 @@
 # Will update the CHANGELOG.md using git-cliff and prepare for a new version.
 #
 # Usage:
-# `./release_ready.sh` - автоматическое определение версии
-# `./release_ready.sh <version>` - указание конкретной версии
+# `tools/release_ready.sh` - автоматическое определение версии (запускать из корня)
+# `tools/release_ready.sh <version>` - указание конкретной версии (запускать из корня)
 
 set -e
+
+# Переходим в корень репозитория независимо от того, откуда запущен скрипт
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+cd "$REPO_ROOT"
+
+echo "📁 Working from repository root: $REPO_ROOT"
 
 # Проверяем, что мы на ветке main
 currentBranch=$(git symbolic-ref --short -q HEAD)
@@ -80,9 +87,20 @@ if [[ "$new_version" == "$current_version" ]]; then
 fi
 
 # Проверяем, что версия не существует в CHANGELOG
-if grep -q "## \[${new_version}\]" "../CHANGELOG.md" 2>/dev/null; then
-    echo "❌ CHANGELOG already contains version $new_version."
-    exit 1
+echo "🔍 Checking if version $new_version already exists in CHANGELOG..."
+changelog_path="CHANGELOG.md"
+if [[ -f "$changelog_path" ]]; then
+    echo "📄 CHANGELOG path: $changelog_path"
+    if grep -q "## \[${new_version}\]" "$changelog_path" 2>/dev/null; then
+        echo "❌ CHANGELOG already contains version $new_version."
+        echo "🔍 Found these matching lines:"
+        grep -n "## \[${new_version}\]" "$changelog_path" || true
+        exit 1
+    else
+        echo "✅ Version $new_version not found in CHANGELOG, proceeding..."
+    fi
+else
+    echo "⚠️  CHANGELOG file not found at $changelog_path"
 fi
 
 # Создаем сообщение коммита для генерации changelog
@@ -90,9 +108,9 @@ commit_msg="chore(release): update CHANGELOG.md for $new_version"
 
 echo "📝 Generating CHANGELOG.md..."
 
-# Генерируем changelog с помощью git-cliff, используя cliff.toml из корня
-echo "🔧 Running: git cliff --config ../cliff.toml --with-commit \"$commit_msg\" --bump -o ../CHANGELOG.md"
-git cliff --config ../cliff.toml --with-commit "$commit_msg" --bump -o ./CHANGELOG.md 2>&1
+# Генерируем changelog с помощью git-cliff из корня репозитория
+echo "🔧 Running: git cliff --with-commit \"$commit_msg\" --bump -o CHANGELOG.md"
+git cliff --with-commit "$commit_msg" --bump -o CHANGELOG.md 2>&1
 
 exit_code=$?
 if [[ $exit_code -ne 0 ]]; then
@@ -100,7 +118,7 @@ if [[ $exit_code -ne 0 ]]; then
     echo "🔍 Trying alternative approach..."
     
     # Альтернативный подход: генерируем changelog с указанием тега
-    git cliff --config ../cliff.toml --with-commit "$commit_msg" --tag "v$new_version" -o ../CHANGELOG.md 2>&1
+    git cliff --with-commit "$commit_msg" --tag "v$new_version" -o CHANGELOG.md 2>&1
     
     if [[ $? -ne 0 ]]; then
         echo "❌ Failed to generate CHANGELOG.md with alternative approach"
@@ -118,7 +136,7 @@ git checkout -b "$branch_name" > /dev/null 2>&1
 
 # Добавляем изменения и сразу коммитим
 echo "💾 Committing changes..."
-git add ../CHANGELOG.md
+git add CHANGELOG.md
 git commit -m "$commit_msg"
 
 echo ""
