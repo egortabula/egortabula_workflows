@@ -1,16 +1,32 @@
 # Changelog
-## [1.0.2](https://github.com/egortabula/egortabula_workflows/compare/v1.0.1..v1.0.2) - 2025-07-17
+## [1.1.0](https://github.com/egortabula/egortabula_workflows/compare/v1.0.2..v1.1.0) - 2025-07-17
+
+### ⛰️  Features
+
+- Add automatic v1 tag update workflow - ([1e38304](https://github.com/egortabula/egortabula_workflows/commit/1e3830489f3753e6a4c8a013e036f0963a239608))
+- Add documentation for available workflows in README.md - ([5e39af5](https://github.com/egortabula/egortabula_workflows/commit/5e39af52b4562cf64057ffce359118dba53b1068))
+- Add Mason Publish workflow documentation - ([58f1eaa](https://github.com/egortabula/egortabula_workflows/commit/58f1eaaff0544313578d9c2e582c1e7611827fa3))
+
+### 🐛 Bug Fixes
+
+- Update release_ready.sh to run from repository root for proper git-cliff analysis - ([47a6b89](https://github.com/egortabula/egortabula_workflows/commit/47a6b898b370c03eb717bcca2aea792b0828d2e0))
+- Update method for retrieving current version from tags in release_ready.sh - ([c05b9d0](https://github.com/egortabula/egortabula_workflows/commit/c05b9d0f8e6362003130107b3a61d7841ba6e1c5))
+- Correct output path for CHANGELOG generation in release_ready.sh - ([1783cb3](https://github.com/egortabula/egortabula_workflows/commit/1783cb3c96775b71b3e9e8bb502e22039e5c805f))
 
 ### ⚙️ Miscellaneous Tasks
 
-- *(release)* Update CHANGELOG.md for 1.0.2 - ([](https://github.com/egortabula/egortabula_workflows/commit/))
-## [1.0.1](https://github.com/egortabula/egortabula_workflows/compare/v1..v1.0.1) - 2025-07-17
+- *(release)* Update CHANGELOG.md for 1.1.0 - ([](https://github.com/egortabula/egortabula_workflows/commit/))
+## [1.0.2](https://github.com/egortabula/egortabula_workflows/compare/v0.2.0..v1.0.2) - 2025-07-17
 
 ### 🐛 Bug Fixes
 
 - Correct formatting of version header in CHANGELOG.md - ([4d03e24](https://github.com/egortabula/egortabula_workflows/commit/4d03e24a68186c0297aa6a5d9fcca9d491075d6c))
 - Update internal reference from Very Good Ventures to Egortabula in README.md - ([4754622](https://github.com/egortabula/egortabula_workflows/commit/47546226317f6ad3a85689170814b472a508ea15))
-## [1](https://github.com/egortabula/egortabula_workflows/compare/v0.1.0..v1) - 2025-07-16
+
+### ⚙️ Miscellaneous Tasks
+
+- *(release)* Update CHANGELOG.md for 1.0.2 - ([8f6806b](https://github.com/egortabula/egortabula_workflows/commit/8f6806b98033e27a7d91260a996b02772b932635))
+## [0.2.0](https://github.com/egortabula/egortabula_workflows/compare/v0.1.0..v0.2.0) - 2025-07-16
 
 ### ⛰️  Features
 
