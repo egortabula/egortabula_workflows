@@ -1,4 +1,13 @@
 # Changelog
+## [1.1.1](https://github.com/egortabula/egortabula_workflows/compare/v1.1.0..v1.1.1) - 2025-07-17
+
+### 🐛 Bug Fixes
+
+- Add proper permissions for v1 tag update workflow - ([0e8b3b7](https://github.com/egortabula/egortabula_workflows/commit/0e8b3b7023b55ab281fb5ce4c9b5433f482d81e0))
+
+### ⚙️ Miscellaneous Tasks
+
+- *(release)* Update CHANGELOG.md for 1.1.1 - ([](https://github.com/egortabula/egortabula_workflows/commit/))
 ## [1.1.0](https://github.com/egortabula/egortabula_workflows/compare/v1.0.2..v1.1.0) - 2025-07-17
 
 ### ⛰️  Features
@@ -15,7 +24,7 @@
 
 ### ⚙️ Miscellaneous Tasks
 
-- *(release)* Update CHANGELOG.md for 1.1.0 - ([](https://github.com/egortabula/egortabula_workflows/commit/))
+- *(release)* Update CHANGELOG.md for 1.1.0 - ([28567a3](https://github.com/egortabula/egortabula_workflows/commit/28567a3c4294945c6f6586fefc71b0113e35fe93))
 ## [1.0.2](https://github.com/egortabula/egortabula_workflows/compare/v0.2.0..v1.0.2) - 2025-07-17
 
 ### 🐛 Bug Fixes
