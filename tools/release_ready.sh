@@ -91,7 +91,7 @@ echo "📝 Generating CHANGELOG.md..."
 
 # Генерируем changelog с помощью git-cliff, используя cliff.toml из корня
 echo "🔧 Running: git cliff --config ../cliff.toml --with-commit \"$commit_msg\" --bump -o ../CHANGELOG.md"
-git cliff --config ../cliff.toml --with-commit "$commit_msg" --bump -o ../CHANGELOG.md 2>&1
+git cliff --config ../cliff.toml --with-commit "$commit_msg" --bump -o ./CHANGELOG.md 2>&1
 
 exit_code=$?
 if [[ $exit_code -ne 0 ]]; then
