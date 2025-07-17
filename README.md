@@ -8,6 +8,13 @@ Developed with 💙 by [Egortabula][egor_tabula_website_link]
 
 Reusable [GitHub workflows][github_workflows_link] used internally at [Egortabula][egor_tabula_website_link].
 
+## Documentation 📝
+
+### Available Workflows
+
+- **[Mason Publish](docs/mason_publish.md)** - Publish Mason bricks to brickhub.dev
+
+More workflows and detailed documentation will be added soon.
 
 ## Quick Start 🚀
 
