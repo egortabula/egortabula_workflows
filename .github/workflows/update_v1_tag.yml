@@ -7,6 +7,9 @@ on:
   release:
     types: [published]
 
+permissions:
+  contents: write
+
 jobs:
   update-v1-tag:
     runs-on: ubuntu-latest
@@ -17,6 +20,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 🏷️ Update v1 tag
         run: |
