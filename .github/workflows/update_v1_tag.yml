@@ -9,6 +9,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   update-v1-tag:
@@ -44,32 +45,7 @@ jobs:
           
           echo "✅ Updated v1 tag to point to $NEW_VERSION"
 
-      - name: 📝 Notify about update
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const newVersion = context.ref.replace('refs/tags/', '');
-            
-            // Try to comment on release if it exists, otherwise create an issue
-            if (context.eventName === 'release') {
-              try {
-                await github.rest.repos.createReleaseComment({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  release_id: context.payload.release.id,
-                  body: `🏷️ The \`v1\` tag has been automatically updated to point to \`${newVersion}\`.\n\nUsers can now reference this workflow using \`@v1\` to always get the latest 1.x version.`
-                });
-              } catch (error) {
-                console.log('Could not comment on release, creating issue instead');
-                throw error;
-              }
-            } else {
-              // Create an issue for tag push events
-              await github.rest.issues.create({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                title: `🏷️ v1 tag updated to ${newVersion}`,
-                body: `The \`v1\` tag has been automatically updated to point to \`${newVersion}\`.\n\nUsers can now reference workflows using \`@v1\` to always get the latest 1.x version.\n\n**Previous workflow references will now use the updated version.**`,
-                labels: ['automation', 'release']
-              });
-            }
+      - name: 📝 Log success
+        run: |
+          echo "✅ Successfully updated v1 tag to point to ${GITHUB_REF#refs/tags/}"
+          echo "Users can now reference workflows using @v1 to get the latest 1.x version"
