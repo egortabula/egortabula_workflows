@@ -1,4 +1,13 @@
 # Changelog
+## [1.1.2](https://github.com/egortabula/egortabula_workflows/compare/v1.1.1..v1.1.2) - 2025-07-17
+
+### 🐛 Bug Fixes
+
+- Simplify v1 tag update workflow notifications - ([d4caba7](https://github.com/egortabula/egortabula_workflows/commit/d4caba77b1ff4ad1ce5cc02ae5d3b5805c458093))
+
+### ⚙️ Miscellaneous Tasks
+
+- *(release)* Update CHANGELOG.md for 1.1.2 - ([](https://github.com/egortabula/egortabula_workflows/commit/))
 ## [1.1.1](https://github.com/egortabula/egortabula_workflows/compare/v1.1.0..v1.1.1) - 2025-07-17
 
 ### 🐛 Bug Fixes
@@ -7,7 +16,7 @@
 
 ### ⚙️ Miscellaneous Tasks
 
-- *(release)* Update CHANGELOG.md for 1.1.1 - ([](https://github.com/egortabula/egortabula_workflows/commit/))
+- *(release)* Update CHANGELOG.md for 1.1.1 - ([5a4c8aa](https://github.com/egortabula/egortabula_workflows/commit/5a4c8aa4b0f8ae105ce3084c60e091a0fc2ef722))
 ## [1.1.0](https://github.com/egortabula/egortabula_workflows/compare/v1.0.2..v1.1.0) - 2025-07-17
 
 ### ⛰️  Features
