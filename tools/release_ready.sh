@@ -30,8 +30,8 @@ if ! command -v git-cliff &> /dev/null; then
     exit 1
 fi
 
-# Получаем текущую версию из последнего тега
-current_version=$(git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//' || echo "0.0.0")
+# Получаем текущую версию из последнего тега по версии (не по времени)
+current_version=$(git tag --list --sort=-version:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n1 | sed 's/^v//' || echo "0.0.0")
 echo "📋 Current version: $current_version"
 
 # Определяем новую версию
@@ -44,13 +44,14 @@ else
     echo "🔍 Determining next version automatically..."
     
     # Сначала проверяем, есть ли коммиты с последнего тега
-    last_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+    last_tag=$(git tag --list --sort=-version:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n1 || echo "")
     if [[ -n "$last_tag" ]]; then
         commits_since_tag=$(git rev-list ${last_tag}..HEAD --count)
         if [[ "$commits_since_tag" -eq 0 ]]; then
             echo "❌ No commits found since last tag ($last_tag). Nothing to release."
             exit 1
         fi
+        echo "📊 Found $commits_since_tag commits since $last_tag"
     fi
     
     new_version=$(git cliff --bumped-version 2>/dev/null)
