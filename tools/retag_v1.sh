@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# DEPRECATED: This script is now deprecated in favor of the automated GitHub Action.
+# The .github/workflows/update_v1_tag.yml workflow automatically updates the v1 tag
+# when new releases are published.
+#
 # Updates the "v1" tag to point to a newer release.
 # To be executed whenever a new 1.x tag is created.
 # Usage: ./retag_v1.sh <newer-existing-version>

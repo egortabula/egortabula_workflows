@@ -1,0 +1,71 @@
+name: Update v1 Tag
+
+on:
+  push:
+    tags:
+      - 'v1.*.*'
+  release:
+    types: [published]
+
+jobs:
+  update-v1-tag:
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v1.') && contains(github.ref, '.')
+    
+    steps:
+      - name: 📚 Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🏷️ Update v1 tag
+        run: |
+          # Extract version from tag
+          NEW_VERSION="${GITHUB_REF#refs/tags/}"
+          echo "New version: $NEW_VERSION"
+          
+          # Configure git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Delete old v1 tag locally if it exists
+          git tag -d v1 || true
+          
+          # Create new v1 tag pointing to the new release
+          git tag v1 "$NEW_VERSION"
+          
+          # Push the updated tag (safe method)
+          git push origin --delete v1 || true
+          git push origin v1
+          
+          echo "✅ Updated v1 tag to point to $NEW_VERSION"
+
+      - name: 📝 Notify about update
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const newVersion = context.ref.replace('refs/tags/', '');
+            
+            // Try to comment on release if it exists, otherwise create an issue
+            if (context.eventName === 'release') {
+              try {
+                await github.rest.repos.createReleaseComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  release_id: context.payload.release.id,
+                  body: `🏷️ The \`v1\` tag has been automatically updated to point to \`${newVersion}\`.\n\nUsers can now reference this workflow using \`@v1\` to always get the latest 1.x version.`
+                });
+              } catch (error) {
+                console.log('Could not comment on release, creating issue instead');
+                throw error;
+              }
+            } else {
+              // Create an issue for tag push events
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: `🏷️ v1 tag updated to ${newVersion}`,
+                body: `The \`v1\` tag has been automatically updated to point to \`${newVersion}\`.\n\nUsers can now reference workflows using \`@v1\` to always get the latest 1.x version.\n\n**Previous workflow references will now use the updated version.**`,
+                labels: ['automation', 'release']
+              });
+            }
