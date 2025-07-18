@@ -1,4 +1,13 @@
 # Changelog
+## [1.1.3](https://github.com/egortabula/egortabula_workflows/compare/v1.1.2..v1.1.3) - 2025-07-18
+
+### 🐛 Bug Fixes
+
+- Add checkout_ref input to Mason Publish Workflow - ([74f50d3](https://github.com/egortabula/egortabula_workflows/commit/74f50d328e9bea8634bf4f5f5c3ac945136cb48c))
+
+### ⚙️ Miscellaneous Tasks
+
+- *(release)* Update CHANGELOG.md for 1.1.3 - ([](https://github.com/egortabula/egortabula_workflows/commit/))
 ## [1.1.2](https://github.com/egortabula/egortabula_workflows/compare/v1.1.1..v1.1.2) - 2025-07-17
 
 ### 🐛 Bug Fixes
@@ -7,7 +16,7 @@
 
 ### ⚙️ Miscellaneous Tasks
 
-- *(release)* Update CHANGELOG.md for 1.1.2 - ([](https://github.com/egortabula/egortabula_workflows/commit/))
+- *(release)* Update CHANGELOG.md for 1.1.2 - ([d5846b8](https://github.com/egortabula/egortabula_workflows/commit/d5846b8602bf18b7789b16e8cc739156d4f1d4d8))
 ## [1.1.1](https://github.com/egortabula/egortabula_workflows/compare/v1.1.0..v1.1.1) - 2025-07-17
 
 ### 🐛 Bug Fixes
