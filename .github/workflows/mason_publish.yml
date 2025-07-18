@@ -7,6 +7,10 @@ on:
         required: false
         type: string
         default: "."
+      checkout_ref:
+        required: false
+        type: string
+        default: ""
       mason_version:
         required: false
         type: string
@@ -39,6 +43,8 @@ jobs:
     steps:
       - name: 📚 Git Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.checkout_ref || github.ref }}
 
       - name: 🎯 Setup Dart
         uses: dart-lang/setup-dart@v1
